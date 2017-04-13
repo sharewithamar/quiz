@@ -8,6 +8,9 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from './app-routing.module';
+import { AngularFireModule } from 'angularfire2';
+import {firebaseConfig} from '../environments/firebase.config';
+
 
 @NgModule({
   declarations: [
@@ -20,7 +23,9 @@ import { AppRoutingModule } from './app-routing.module';
     FormsModule,
     HttpModule,
     NgbModule.forRoot(),
-    AppRoutingModule
+    AppRoutingModule,
+    AngularFireModule.initializeApp(firebaseConfig)
+
   ],
   providers: [],
   bootstrap: [AppComponent]
