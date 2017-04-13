@@ -10,13 +10,14 @@ import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AngularFireModule } from 'angularfire2';
 import {firebaseConfig} from '../environments/firebase.config';
+import {FireserviceService} from './shared/fireservice.service';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
@@ -27,7 +28,7 @@ import {firebaseConfig} from '../environments/firebase.config';
     AngularFireModule.initializeApp(firebaseConfig)
 
   ],
-  providers: [],
+  providers: [FireserviceService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

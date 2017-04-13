@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFire, FirebaseListObservable } from 'angularfire2';
+import {FireserviceService} from '../shared/fireservice.service';
 
 @Component({
   selector: 'app-login',
@@ -8,11 +9,18 @@ import { AngularFire, FirebaseListObservable } from 'angularfire2';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(fire: AngularFire) {
+  constructor(public fire: AngularFire,public fireservice: FireserviceService) {
     console.log(fire);
    }
 
   ngOnInit() {
+  }
+  
+  login()
+  {
+    this.fireservice.facebookLogin().then(data => {
+        console.log("logged in data" , data);
+    });
   }
 
 }
