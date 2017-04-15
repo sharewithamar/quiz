@@ -11,6 +11,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AngularFireModule } from 'angularfire2';
 import {firebaseConfig} from '../environments/firebase.config';
 import {FireserviceService} from './shared/fireservice.service';
+import { ErrorComponent } from './error/error.component';
+import { EventsComponent } from './events/events.component';
+import { QuestionsComponent } from './questions/questions.component';
 
 
 @NgModule({
@@ -18,6 +21,9 @@ import {FireserviceService} from './shared/fireservice.service';
     AppComponent,
     LoginComponent,
     HomeComponent,
+    ErrorComponent,
+    EventsComponent,
+    QuestionsComponent,
   ],
   imports: [
     BrowserModule,

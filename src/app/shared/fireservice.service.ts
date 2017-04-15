@@ -19,6 +19,8 @@ export class FireserviceService {
       provider: AuthProviders.Facebook,
       method: AuthMethods.Popup,
     })
+
+    
   }
 
   getLoggedinUser() {

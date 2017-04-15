@@ -25,13 +25,13 @@ export class LoginComponent implements OnInit {
         this.isLoggedIn = false;
       }
       else {
-        this.isLoggedIn = true;
+        this.isLoggedIn = true;    
         this.saveUser(authState);
 
       }
 
     });
-
+    
 
   }
 
@@ -40,8 +40,8 @@ export class LoginComponent implements OnInit {
     this.exist.take(1).subscribe(x => {
 
       if (!x.id) {
-        console.log("user does not exist in db");
-        this.fire.database.object('/users/' + authState.uid).update({
+         console.log("user does not exist in db");
+          this.fire.database.object('/users/' + authState.uid).update({
           id: authState.uid,
           name: authState.facebook.displayName,
           photoUrl: authState.facebook.photoURL
@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
         });
       }
 
-
+     
     });
   }
 
@@ -58,12 +58,12 @@ export class LoginComponent implements OnInit {
   login() {
     if (this.isLoggedIn) {
 
-      this.router.navigate(['/home']);
+      this.router.navigate(['/creative']);
     }
     else {
 
       this.fireservice.facebookLogin().then(data => {
-        this.router.navigate(['/home']);
+        this.router.navigate(['/creative']);
       });
     }
 
