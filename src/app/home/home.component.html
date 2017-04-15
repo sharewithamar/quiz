@@ -1,4 +1,5 @@
 <div class="container">
+    <button class="btn btn-primary" (click)="logout()">log out</button>
     <div class="jumbotron">
         <img [src]="loggedUser?.photoUrl" alt="userphoto" class="rounded-circle">
         {{loggedUser?.name}}
