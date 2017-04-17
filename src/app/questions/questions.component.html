@@ -1,10 +1,59 @@
 <div class="col-md-12">
-    <form [formGroup]="quizForm" *ngFor="let quizQuestion of questions; let i = index">
- 
+    <form [formGroup]="quizForm" *ngFor="let question of questions; let i = index">
+<!--        <div formArrayName="questions">
+<div class="card">
+  <div class="card-header">
+    {{question.question}}
+  </div>
+  <div class="card-block">
+    <div class="form-check">
+      <label>
+            <input
+              type="radio"
+              [formControlName]="i"     
+              [value]="question.option1"> {{question.option1}}
+          </label>
+    </div>
+    <div class="form-check">
+      <label>
+            <input
+              type="radio"
+ [formControlName]="i"   
+              [value]="question.option2">{{question.option2}}
+          </label>
+    </div>
+    <div class="form-check">
 
-         <app-question [form]="quizForm" [controlName]="i" [question]="quizQuestion"></app-question>
+      <label>
+            <input
+              type="radio"
+                         [formControlName]="i"   
+
+              [value]="question.option3">{{question.option3}}
+          </label>
+    </div>
+    <div class="form-check">
+
+      <label>
+            <input
+              type="radio"
+  [formControlName]="i"   
+              [value]="question.option4">{{question.option4}}
+          </label>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+</div>-->
+
+    <app-question [form]="quizForm" [controlIndex]="i" [question]="question"></app-question>
 
     </form>
-        <button class="btn btn-primary" type="submit" >Submit</button>
+        <button class="btn btn-primary" type="submit" (click)=" onSubmit()" >Submit</button>
 
 </div>

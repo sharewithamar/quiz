@@ -11,9 +11,10 @@ import { FormArray, FormControl, FormGroup, Validators ,FormControlName } from '
 export class QuestionComponent implements OnInit {
  @Input() form: FormGroup;
   @Input() controlIndex: any;
+//@Input() control :FormControl;
   @Input() question: question;
 
-  currentFormControl :FormControl;
+  ;
 
 
   constructor() {
@@ -24,12 +25,14 @@ export class QuestionComponent implements OnInit {
   ngOnInit() {
       
      // tslint:disable-next-line:no-unused-expression
-     this.currentFormControl =<FormArray>this.form.get('questions')).controls[this.controlIndex] ;
+    // this.currentFormControl = (<FormArray>this.form.get('questions')).controls[this.controlIndex] ;
      
+/*         console.log("recievedControl",this.control);
+
     console.log("recievedQuestion",this.question);
         console.log("control instance",this.controlIndex);
         console.log( (<FormArray>this.form.get('questions')).controls[this.controlIndex] );
-
+*/
 
   }
 

@@ -35,24 +35,28 @@ this.questions=[
    }
 ];
 
-   }
-
-  ngOnInit() {
-
     this.quizForm = new FormGroup({
-       'questions': new FormArray([])
+       'questions': this.arr
      // 'question': new FormControl(null)
     });
 
     for(let x of  this.questions)
     {
-         (<FormArray>this.quizForm.get('questions')).push(new FormControl(null));
+       //  (<FormArray>this.quizForm.get('questions')).push(new FormControl(null));
+       this.arr.push(new FormControl(null));
     }
+   }
+
+  ngOnInit() {
+  
+
+
 
   }
 
   onSubmit() {
-    console.log(this.quizForm);
+    console.log(this.quizForm.value);
+    console.log(this.quizForm.get('questions').value);
     // this.quizForm.reset();
   }
 }
