@@ -1,7 +1,10 @@
 <div class="col-md-12">
-    <form>
-      
-        <app-question></app-question>
+    <form [formGroup]="quizForm" *ngFor="let quizQuestion of questions; let i = index">
+ 
+
+         <app-question [form]="quizForm" [controlName]="i" [question]="quizQuestion"></app-question>
 
     </form>
+        <button class="btn btn-primary" type="submit" >Submit</button>
+
 </div>

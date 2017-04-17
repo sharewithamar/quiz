@@ -15,6 +15,7 @@ export class HomeComponent implements OnInit {
     photoUrl: ''
   };
 
+
    
 
   constructor(public fireservice :FireserviceService ,private route: ActivatedRoute ,private router:Router,private fire : AngularFire ) {
@@ -42,15 +43,7 @@ export class HomeComponent implements OnInit {
       }); 
 
 
-    
-/*     this.route.data
-      .subscribe(
-        (data: Data) => {
- console.log("After resolve",data);
-         // this.loggedUser = data['loggedUser'];
-          console.log("After resolve",this.loggedUser);
-        }
-      );*/
+
 
   }
 
@@ -59,5 +52,8 @@ export class HomeComponent implements OnInit {
     this.fire.auth.logout();
     this.router.navigate(['/']);
   }
+
+
+
 
 }

@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { question } from './../shared/model';
+import { FormArray, FormControl, FormGroup, Validators ,FormControlName } from '@angular/forms';
+
 
 @Component({
   selector: 'app-question',
@@ -6,10 +9,28 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./question.component.css']
 })
 export class QuestionComponent implements OnInit {
+ @Input() form: FormGroup;
+  @Input() controlIndex: any;
+  @Input() question: question;
 
-  constructor() { }
+  currentFormControl :FormControl;
+
+
+  constructor() {
+
+
+   }
 
   ngOnInit() {
+      
+     // tslint:disable-next-line:no-unused-expression
+     this.currentFormControl =<FormArray>this.form.get('questions')).controls[this.controlIndex] ;
+     
+    console.log("recievedQuestion",this.question);
+        console.log("control instance",this.controlIndex);
+        console.log( (<FormArray>this.form.get('questions')).controls[this.controlIndex] );
+
+
   }
 
 }
