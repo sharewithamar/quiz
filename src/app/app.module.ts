@@ -14,6 +14,7 @@ import {FireserviceService} from './shared/fireservice.service';
 import { ErrorComponent } from './error/error.component';
 import { EventsComponent } from './events/events.component';
 import { QuestionsComponent } from './questions/questions.component';
+import { QuestionComponent } from './question/question.component';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { QuestionsComponent } from './questions/questions.component';
     ErrorComponent,
     EventsComponent,
     QuestionsComponent,
+    QuestionComponent,
   ],
   imports: [
     BrowserModule,
