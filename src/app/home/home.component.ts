@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import {user} from '../shared/model';
 import { FireserviceService } from '../shared/fireservice.service';
 import { ActivatedRoute, Params, Router, Data } from '@angular/router';
 import { AngularFire, FirebaseListObservable } from 'angularfire2';
+declare var $:any;
+
+
 
 @Component({
   selector: 'app-home',
@@ -10,6 +13,7 @@ import { AngularFire, FirebaseListObservable } from 'angularfire2';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+
   loggedUser: user = {
     name: '',
     photoUrl: ''
@@ -44,6 +48,10 @@ export class HomeComponent implements OnInit {
 
 
 
+			 $('#timer').FlipClock(600,{
+				countdown: true,
+				clockFace: 'MinuteCounter'
+			});
 
   }
 

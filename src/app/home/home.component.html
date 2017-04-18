@@ -6,9 +6,12 @@
             <span class="navbar-toggler-icon"></span>
         </button>
                 <div class="container">
-                    <a class="navbar-brand" href="#">Creative</a>
+                    <a class="navbar-brand" style="color:white">Creative</a>
                     <div class="collapse navbar-collapse" id="navbarExample">
                         <ul class="navbar-nav ml-auto">
+                             <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                                <a class="nav-link"  routerLink="/creative">Quiz</a>
+                            </li>
                             <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                                 <a class="nav-link" href="#">Toppers <span class="sr-only">(current)</span></a>
                             </li>
@@ -43,11 +46,12 @@
                        {{loggedUser?.name}}
                         <small>Front-end designer</small>
                     </h4>
-                    <div class='card-links'>
+                  <!--  <div class='card-links'>
                         <a class='fa fa-dribbble' href='#'></a>
                         <a class='fa fa-twitter' href='#'></a>
                         <a class='fa fa-facebook' href='#'></a>
-                    </div>
+                    </div>-->
+                    <div id="timer"></div>
                 </div>
             </div>
         </div>
