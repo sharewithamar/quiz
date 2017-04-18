@@ -54,9 +54,27 @@ this.questions=[
 
   }
 
+  caclulateScore()
+  {
+    let answers =["Delhi","Chennai"];
+    let userAnswers =this.quizForm.get('questions').value;
+    let score=0;
+
+    for(let q=0; q<answers.length;q++)
+    {
+      if(answers[q]==userAnswers[q])
+      {
+        score++;
+      }
+    }
+      console.log("your score is ",score);
+
+  }
+
   onSubmit() {
+    this.caclulateScore();
     console.log(this.quizForm.value);
     console.log(this.quizForm.get('questions').value);
-    // this.quizForm.reset();
+     this.quizForm.reset();
   }
 }

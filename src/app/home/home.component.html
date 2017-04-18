@@ -38,9 +38,9 @@
             <div class='card card-profile text-center'>
                 <img alt='' class='card-img-top' src='https://unsplash.it/340/160?image=354'>
                 <div class='card-block'>
-                    <img alt='' class='card-img-profile' src='https://it.gravatar.com/userimage/3434071/205a00fc16ae537b26b56f40790910fe.jpg?size=140'>
+                    <img alt='' class='card-img-profile'[src]="loggedUser?.photoUrl">
                     <h4 class='card-title'>
-                        Nicola Pressi
+                       {{loggedUser?.name}}
                         <small>Front-end designer</small>
                     </h4>
                     <div class='card-links'>
