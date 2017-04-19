@@ -2,6 +2,8 @@ import { slideInDownAnimation } from 'app/shared/route-animation';
 import { question } from './../shared/model';
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+//declare var $:any;
+
 
 @Component({
   selector: 'app-questions',
@@ -39,6 +41,14 @@ export class QuestionsComponent implements OnInit {
         option3: "Coimbatore",
         option4: "Madurai"
 
+      },
+        {
+        question: "captital of srilanka?",
+        option1: "Chennai",
+        option2: "Trichy",
+        option3: "Coimbatore",
+        option4: "Madurai"
+
       }
     ];
 
@@ -56,6 +66,7 @@ export class QuestionsComponent implements OnInit {
   ngOnInit() {
 
 
+     //   $("#scrollContent").niceScroll();
 
 
   }

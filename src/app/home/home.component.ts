@@ -36,6 +36,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
 
+
  this.fireSub=this.fire.auth.subscribe(authState => {
       //  authState.uid- use uid to fetch details
       
