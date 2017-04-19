@@ -1,6 +1,7 @@
 export interface user {
     name: string,
     photoUrl: string,
+    coverUrl:string
 }
 
 export interface question {

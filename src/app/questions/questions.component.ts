@@ -1,13 +1,19 @@
+import { slideInDownAnimation } from 'app/shared/route-animation';
 import { question } from './../shared/model';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-questions',
   templateUrl: './questions.component.html',
-  styleUrls: ['./questions.component.css']
+  styleUrls: ['./questions.component.css'],
+    animations: [slideInDownAnimation]
+
 })
 export class QuestionsComponent implements OnInit {
+ @HostBinding('@routeAnimation') routeAnimation = true;
+  @HostBinding('style.display') display = 'block';
+
   time: any;
   quizForm: FormGroup;
   questions : question[];

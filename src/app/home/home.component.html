@@ -39,12 +39,12 @@
     <div class="row" style="margin-top:60px">
         <div class="col-md-4">
             <div class='card card-profile text-center'>
-                <img alt='' class='card-img-top' src='https://unsplash.it/340/160?image=354'>
+               <img alt='' class='card-img-top' [src]="loggedUser?.coverUrl" style="width: 340px;height:160px">
                 <div class='card-block'>
                     <img alt='' class='card-img-profile'[src]="loggedUser?.photoUrl">
                     <h4 class='card-title'>
                        {{loggedUser?.name}}
-                        <small>Front-end designer</small>
+                        <small>Boschler</small>
                     </h4>
                   <!--  <div class='card-links'>
                         <a class='fa fa-dribbble' href='#'></a>

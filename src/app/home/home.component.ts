@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy,HostBinding } from '@angular/core';
 import {user} from '../shared/model';
 import { FireserviceService } from '../shared/fireservice.service';
 import { ActivatedRoute, Params, Router, Data } from '@angular/router';
@@ -10,14 +11,19 @@ declare var $:any;
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
-})
-export class HomeComponent implements OnInit {
+  styleUrls: ['./home.component.css'],
 
-  loggedUser: user = {
+})
+export class HomeComponent implements OnInit, OnDestroy {
+
+
+    loggedUser: user = {
     name: '',
-    photoUrl: ''
+    photoUrl: '',
+    coverUrl:''
   };
+  fireSub: Subscription;
+  coverSub: Subscription;
 
 
    
@@ -30,8 +36,9 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
 
 
- this.fire.auth.subscribe(authState => {
+ this.fireSub=this.fire.auth.subscribe(authState => {
       //  authState.uid- use uid to fetch details
+      
       if (!authState) {
          this.router.navigate(['/']);
         console.log("Not logged in");
@@ -39,6 +46,8 @@ export class HomeComponent implements OnInit {
       }
       else 
       {
+      this.coverSub=  this.fire.database.object('/users/' + authState.uid).subscribe(data=> {this.loggedUser.coverUrl= data.cover});  
+
          this.loggedUser.name= authState.facebook.displayName;
          this.loggedUser.photoUrl=authState.facebook.photoURL;
       }
@@ -46,6 +55,7 @@ export class HomeComponent implements OnInit {
      
       }); 
 
+             
 
 
 			 $('#timer').FlipClock(600,{
@@ -61,6 +71,10 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/']);
   }
 
+ ngOnDestroy() {
+     this.fireSub.unsubscribe();
+     this.coverSub.unsubscribe();
+    }
 
 
 
