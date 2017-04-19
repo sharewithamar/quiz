@@ -13,8 +13,9 @@ export class QuestionComponent implements OnInit {
   @Input() controlIndex: any;
 //@Input() control :FormControl;
   @Input() question: question;
+  @Input() formSubmitted: boolean;
 
-  ;
+  
 
 
   constructor() {

@@ -1,53 +1,65 @@
-<div class="card" [formGroup]="form">
+<div class="card question-card" [formGroup]="form" [ngClass]= "{errorBorder : form.get('questions').controls[controlIndex].hasError('required') && formSubmitted}">
   <div formArrayName="questions">
-  <div class="card-header">
-    {{question.question}}
-  </div>
-  <div class="card-block">
-    <div class="form-check">
-      <label>
-            <input
+    <div class="card-header">
+      {{question.question}}
+    </div>
+    <div class="card-block" style="padding-bottom: 0">
+      <div class="form-check">
+        <label class="custom-control custom-radio">
+            <input class="custom-control-input"
               type="radio"
               [formControlName]="controlIndex"     
-              [value]="question.option1"> {{question.option1}}
+              [value]="question.option1"> 
+                <span class="custom-control-indicator"></span>
+                <span class="custom-control-description">{{question.option1}}</span>
           </label>
 
 
-    </div>
-    <div class="form-check">
+      </div>
+      <div class="form-check">
 
-      <label>
-            <input
+        <label class="custom-control custom-radio">
+            <input class="custom-control-input"
               type="radio"
  [formControlName]="controlIndex"   
-              [value]="question.option2">{{question.option2}}
+              [value]="question.option2">
+              <span class="custom-control-indicator"></span>
+                <span class="custom-control-description">{{question.option2}}</span>
           </label>
 
 
-    </div>
-    <div class="form-check">
+      </div>
+      <div class="form-check">
 
-      <label>
-            <input
+        <label class="custom-control custom-radio">
+            <input class="custom-control-input"
               type="radio"
                          [formControlName]="controlIndex"   
 
-              [value]="question.option3">{{question.option3}}
+              [value]="question.option3">
+               <span class="custom-control-indicator"></span>
+                <span class="custom-control-description">{{question.option3}}</span>
+
           </label>
 
 
-    </div>
-    <div class="form-check">
+      </div>
+      <div class="form-check">
 
-      <label>
-            <input
+        <label class="custom-control custom-radio">
+            <input class="custom-control-input"
               type="radio"
   [formControlName]="controlIndex"   
-              [value]="question.option4">{{question.option4}}
+              [value]="question.option4">
+              <span class="custom-control-indicator"></span>
+                <span class="custom-control-description">{{question.option4}}</span>
+
           </label>
 
 
+      </div>
     </div>
-  </div>
+    <span class="form-text text-muted errormsg" *ngIf="form.get('questions').controls[controlIndex].hasError('required') && formSubmitted"> * You must answer this question.</span>
+
   </div>
 </div>

@@ -1,5 +1,5 @@
 <div class="col-md-12">
-    <form [formGroup]="quizForm" *ngFor="let question of questions; let i = index">
+    <form [formGroup]="quizForm" (ngSubmit)="onSubmit()" >
 <!--        <div formArrayName="questions">
 <div class="card">
   <div class="card-header">
@@ -50,10 +50,14 @@
 
 
 </div>-->
+    <div *ngFor="let question of questions; let i = index">
+    <app-question [form]="quizForm" [formSubmitted]="submitted" [controlIndex]="i" [question]="question"></app-question>
 
-    <app-question [form]="quizForm" [controlIndex]="i" [question]="question"></app-question>
+    </div>
+    <span *ngIf="!quizForm.valid"
+              class="help-block">You must answer all the question to submit </span>
+        <button class="btn btn-primary" type="submit"  >Submit</button>
 
     </form>
-        <button class="btn btn-primary" type="submit" (click)=" onSubmit()" >Submit</button>
 
 </div>

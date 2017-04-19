@@ -1,0 +1,11 @@
+.errormsg{
+color :Red !important;
+margin-left :25px;
+}
+.errorBorder{
+border: 1px solid red;
+
+}
+.question-card{
+ margin-top:10px;
+}

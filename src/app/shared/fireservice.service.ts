@@ -9,7 +9,8 @@ import 'rxjs/add/operator/map';
 export class FireserviceService {
   loggedUser: user = {
     name: '',
-    photoUrl: ''
+    photoUrl: '',
+    coverUrl:''
   };
   exist: any;
   constructor(public af: AngularFire) { }
