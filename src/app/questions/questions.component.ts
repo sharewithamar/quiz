@@ -2,7 +2,6 @@ import { slideInDownAnimation } from 'app/shared/route-animation';
 import { question } from './../shared/model';
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-//declare var $:any;
 
 
 @Component({
@@ -66,7 +65,6 @@ export class QuestionsComponent implements OnInit {
   ngOnInit() {
 
 
-     //   $("#scrollContent").niceScroll();
 
 
   }
