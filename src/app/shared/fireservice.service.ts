@@ -3,10 +3,15 @@ import { AngularFire, AuthProviders, AuthMethods } from 'angularfire2';
 import { user } from '../shared/model';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/map';
+import { Subject } from "rxjs/Subject";
 
 
 @Injectable()
 export class FireserviceService {
+   //  showQuesAnim = new Subject<boolean>();
+   
+    showQuestion:boolean =false;
+
   loggedUser: user = {
     name: '',
     photoUrl: '',

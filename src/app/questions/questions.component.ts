@@ -1,3 +1,4 @@
+import { FireserviceService } from './../shared/fireservice.service';
 import { slideInDownAnimation } from 'app/shared/route-animation';
 import { question } from './../shared/model';
 import { Component, OnInit, HostBinding } from '@angular/core';
@@ -12,17 +13,31 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 
 })
 export class QuestionsComponent implements OnInit {
-  @HostBinding('@routeAnimation') routeAnimation = true;
-  @HostBinding('style.display') display = 'block';
+  @HostBinding('@routeAnimation') routeAnimation =true ;
+  @HostBinding('style.display') display ='block';
+
+
 
   time: any;
   quizForm: FormGroup;
   questions: question[];
   arr = new FormArray([]);
   submitted: boolean = false;
+ show:boolean=false;
 
+  constructor(public fireservice: FireserviceService) {
 
-  constructor() {
+    console.log(fireservice.showQuestion);
+/*      setTimeout(() => {
+      this.routeAnimation=true;
+    }, 5000);*/
+/*    this.fireservice.showQuesAnim.subscribe(x=>{ 
+              this.show=true;
+         this.display='block';
+         this.routeAnimation=true;
+
+    });*/
+
     this.questions = [
 
       {

@@ -1,4 +1,4 @@
-<div class="col-md-10">
+<div class="col-md-10" @routeAnimation *ngIf="fireservice.showQuestion">
     <form [formGroup]="quizForm" (ngSubmit)="onSubmit()" >
 <!--        <div formArrayName="questions">
 <div class="card">

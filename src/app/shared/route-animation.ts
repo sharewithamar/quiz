@@ -1,4 +1,4 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import { animate,group,state, style, transition, trigger } from '@angular/animations';
 import { AnimationEntryMetadata } from "@angular/core";
 
 export const routeFadeStateTrigger = trigger('routeFadeState', [
@@ -66,3 +66,31 @@ export const slideInDownAnimation =
     ])
   ]);
 
+
+export const buttonStateTrigger = trigger('buttonState', [
+  state('valid', style({
+  //  backgroundColor: 'lightgreen',
+    borderColor: 'green',
+ //   color: 'green'
+  })),
+  state('invalid', style({
+  //  backgroundColor: '#5cb85c',
+//color: 'white',
+    borderColor: '#5cb85c'
+  })),
+
+  transition('* => valid', [
+    group([
+      animate(100, style({
+        transform: 'scale(1.3)'
+      })),
+      animate(200, style({
+        borderColor: 'lightgreen'
+      }))
+    ]),
+    animate(200, style({
+      transform: 'scale(1)'
+    }))
+  ]),
+
+]);
