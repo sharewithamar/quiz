@@ -1,8 +1,11 @@
 import { FireserviceService } from './../shared/fireservice.service';
 import { slideInDownAnimation } from 'app/shared/route-animation';
 import { question } from './../shared/model';
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, OnInit, HostBinding, ViewChild, ElementRef } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+
+declare var $: any;
 
 
 @Component({
@@ -13,30 +16,32 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 
 })
 export class QuestionsComponent implements OnInit {
-  @HostBinding('@routeAnimation') routeAnimation =true ;
-  @HostBinding('style.display') display ='block';
+
+  @HostBinding('@routeAnimation') routeAnimation = true;
+  @HostBinding('style.display') display = 'block';
 
 
-
+  closeResult: string;
+  @ViewChild('content') content : ElementRef
   time: any;
   quizForm: FormGroup;
   questions: question[];
   arr = new FormArray([]);
   submitted: boolean = false;
- show:boolean=false;
+  show: boolean = false;
 
-  constructor(public fireservice: FireserviceService) {
+  constructor(public fireservice: FireserviceService,private modalService: NgbModal) {
 
     console.log(fireservice.showQuestion);
-/*      setTimeout(() => {
-      this.routeAnimation=true;
-    }, 5000);*/
-/*    this.fireservice.showQuesAnim.subscribe(x=>{ 
-              this.show=true;
-         this.display='block';
-         this.routeAnimation=true;
-
-    });*/
+    /*      setTimeout(() => {
+          this.routeAnimation=true;
+        }, 5000);*/
+    /*    this.fireservice.showQuesAnim.subscribe(x=>{ 
+                  this.show=true;
+             this.display='block';
+             this.routeAnimation=true;
+    
+        });*/
 
     this.questions = [
 
@@ -56,7 +61,7 @@ export class QuestionsComponent implements OnInit {
         option4: "Madurai"
 
       },
-        {
+      {
         question: "captital of srilanka?",
         option1: "Chennai",
         option2: "Trichy",
@@ -115,8 +120,39 @@ export class QuestionsComponent implements OnInit {
       console.log(this.quizForm.get('questions').value);
       this.submitted = false;
     }
+    else {
+
+      this.open(this.content)
+        /* var modal = $('#myModal');
+
+      modal.find('.modal-body').text('New message to ' + 'Amar')
+      modal.modal({
+        keyboard: true,
+        backdrop:true
+
+      });*/
+    }
 
 
 
+  }
+
+  open(content) {
+    this.modalService.open(content).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+      console.log(result);
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return  `with: ${reason}`;
+    }
   }
 }

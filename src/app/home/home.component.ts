@@ -61,7 +61,7 @@ showQuestions:boolean =false;
 
 
 
-    this.timer = $('#timer').FlipClock(600, {
+    this.timer = $('#timer').FlipClock(60, {
       countdown: true,
       clockFace: 'MinuteCounter',
       autoStart: false
@@ -83,6 +83,8 @@ showQuestions:boolean =false;
       this.timer.start();
     }
 
+   
+
 
   }
 
@@ -103,6 +105,7 @@ showQuestions:boolean =false;
   this.fireservice.showQuestion= true;
     }
   }
+
 
 
 
