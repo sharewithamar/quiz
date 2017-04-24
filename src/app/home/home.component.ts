@@ -28,7 +28,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   coverSub: Subscription;
   timer: any;
   startTimer: boolean = false;
-showQuestions:boolean =false;
+  showQuestions: boolean = false;
 
 
   constructor(public fireservice: FireserviceService, private route: ActivatedRoute, private router: Router, private fire: AngularFire) {
@@ -60,14 +60,22 @@ showQuestions:boolean =false;
 
 
 
+    var self = this;
 
-    this.timer = $('#timer').FlipClock(60, {
+    this.timer = $('#timer').FlipClock(10, {
       countdown: true,
       clockFace: 'MinuteCounter',
-      autoStart: false
+      autoStart: false,
+      callbacks: {
+        stop: function () {
+          self.fireservice.timerEnd.next(true);
+
+        }
+      }
     });
 
   }
+
 
   showTimer() {
 
@@ -83,7 +91,7 @@ showQuestions:boolean =false;
       this.timer.start();
     }
 
-   
+
 
 
   }
@@ -100,9 +108,9 @@ showQuestions:boolean =false;
 
   animationDone(e) {
     if (e.toState == "valid") {
-     this.showQuestions=true;
-   //  this.fireservice.showQuesAnim.next(true);
-  this.fireservice.showQuestion= true;
+      this.showQuestions = true;
+      //  this.fireservice.showQuesAnim.next(true);
+      this.fireservice.showQuestion = true;
     }
   }
 

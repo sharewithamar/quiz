@@ -8,7 +8,7 @@ import { Subject } from "rxjs/Subject";
 
 @Injectable()
 export class FireserviceService {
-   //  showQuesAnim = new Subject<boolean>();
+    timerEnd = new Subject<boolean>();
    
     showQuestion:boolean =false;
 

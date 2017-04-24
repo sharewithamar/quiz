@@ -37,22 +37,13 @@ export class QuestionsComponent implements OnInit, CanDeactivateGuard {
   endTime: any;
   modalButtonText: string = "ok";
   continueFlag: boolean = false;
-  buttonReason: string = "Quit";
+  buttonReason: string = "close click";
+  gameOver: boolean = false;
 
   constructor(public fireservice: FireserviceService, private modalService: NgbModal) {
 
     console.log(fireservice.showQuestion);
     this.startTime = new Date();
-
-    /*      setTimeout(() => {
-          this.routeAnimation=true;
-        }, 5000);*/
-    /*    this.fireservice.showQuesAnim.subscribe(x=>{ 
-                  this.show=true;
-             this.display='block';
-             this.routeAnimation=true;
-    
-        });*/
 
     this.questions = [
 
@@ -95,7 +86,17 @@ export class QuestionsComponent implements OnInit, CanDeactivateGuard {
 
   ngOnInit() {
 
+    this.fireservice.timerEnd.subscribe(x => {
+      if (x) {
+        this.modalButtonText = "ok 🐱";
 
+        this.messageTitle = "Time Up !! ⌚"
+        this.messageTxt = "um..You need to improve your GK & Time management. Your answers will be auto submitted";
+        this.open(this.content)
+        this.gameOver = true;
+        this.onSubmit();
+      }
+    });
 
 
   }
@@ -132,34 +133,32 @@ export class QuestionsComponent implements OnInit, CanDeactivateGuard {
 
   onSubmit() {
     this.caclulateScore();
-    this.endTime = new Date();
+    if (this.gameOver) {
 
-    let x = this.millisToMinutesAndSeconds(this.endTime - +(this.startTime));
-    console.log("difference", x);
-
-    console.log(this.endTime - +(this.startTime));
-
-    this.submitted = true;
-    if (this.quizForm.valid) {
-      this.quizForm.reset();
-      console.log(this.quizForm.valid);
-      console.log(this.quizForm.get('questions').value);
-      this.submitted = false;
     }
     else {
-      this.submitted = false;
-      this.messageTitle = "what’s the hurry? ⌚"
-      this.messageTxt = "Time is on your side ! . Try to answer all the questions";
-      this.open(this.content)
-      /* var modal = $('#myModal');
+      this.endTime = new Date();
+      let x = this.millisToMinutesAndSeconds(this.endTime - +(this.startTime));
+      console.log("difference", x);
 
-    modal.find('.modal-body').text('New message to ' + 'Amar')
-    modal.modal({
-      keyboard: true,
-      backdrop:true
+      console.log(this.endTime - +(this.startTime));
 
-    });*/
+      this.submitted = true;
+      if (this.quizForm.valid) {
+        this.quizForm.reset();
+        console.log(this.quizForm.valid);
+        console.log(this.quizForm.get('questions').value);
+        this.submitted = false;
+      }
+      else {
+        this.submitted = false;
+        this.messageTitle = "what’s the hurry? ⌚"
+        this.messageTxt = "Time is on your side ! . Try to answer all the questions";
+        this.open(this.content)
+      }
+
     }
+
 
 
 
@@ -195,6 +194,7 @@ export class QuestionsComponent implements OnInit, CanDeactivateGuard {
   canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
 
     if (!this.submitted) {
+      this.buttonReason = "Quit";
       this.continueFlag = true;
       this.modalButtonText = "I Quit";
       this.messageTitle = "Winners Never Quit halfway ⚠"
@@ -207,32 +207,25 @@ export class QuestionsComponent implements OnInit, CanDeactivateGuard {
 
           this.closeResult = `Closed with: ${result}`;
           if (this.closeResult == 'Closed with: Quit') {
-
             resolve(true);
+            this.continueFlag = false;
+
           }
           else {
             resolve(false);
+            this.continueFlag = false;
           }
         }, (reason) => {
           this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
           resolve(false);
 
-
-
         });
 
       });
 
-   
+
 
     }
-
-
-
-
-
-
-
 
 
   }
