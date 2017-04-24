@@ -1,9 +1,11 @@
+import { Observable } from 'rxjs/Observable';
 import { FireserviceService } from './../shared/fireservice.service';
 import { slideInDownAnimation } from 'app/shared/route-animation';
 import { question } from './../shared/model';
 import { Component, OnInit, HostBinding, ViewChild, ElementRef } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { CanDeactivateGuard } from './can-deactivate.guard';
 
 declare var $: any;
 
@@ -15,24 +17,33 @@ declare var $: any;
   animations: [slideInDownAnimation]
 
 })
-export class QuestionsComponent implements OnInit {
+export class QuestionsComponent implements OnInit, CanDeactivateGuard {
 
   @HostBinding('@routeAnimation') routeAnimation = true;
   @HostBinding('style.display') display = 'block';
 
 
   closeResult: string;
-  @ViewChild('content') content : ElementRef
+  @ViewChild('content') content: ElementRef
   time: any;
   quizForm: FormGroup;
   questions: question[];
   arr = new FormArray([]);
   submitted: boolean = false;
   show: boolean = false;
+  messageTxt: string;
+  messageTitle: string;
+  startTime: any;
+  endTime: any;
+  modalButtonText: string = "ok";
+  continueFlag: boolean = false;
+  buttonReason: string = "Quit";
 
-  constructor(public fireservice: FireserviceService,private modalService: NgbModal) {
+  constructor(public fireservice: FireserviceService, private modalService: NgbModal) {
 
     console.log(fireservice.showQuestion);
+    this.startTime = new Date();
+
     /*      setTimeout(() => {
           this.routeAnimation=true;
         }, 5000);*/
@@ -63,10 +74,10 @@ export class QuestionsComponent implements OnInit {
       },
       {
         question: "captital of srilanka?",
-        option1: "Chennai",
-        option2: "Trichy",
-        option3: "Coimbatore",
-        option4: "Madurai"
+        option1: "colombo",
+        option2: "Kandy",
+        option3: "NuwaraEliya",
+        option4: "Yala"
 
       }
     ];
@@ -98,7 +109,7 @@ export class QuestionsComponent implements OnInit {
   }
 
   caclulateScore() {
-    let answers = ["Delhi", "Chennai"];
+    let answers = ["Delhi", "Chennai", "colombo"];
     let userAnswers = this.quizForm.get('questions').value;
     let score = 0;
 
@@ -111,8 +122,23 @@ export class QuestionsComponent implements OnInit {
 
   }
 
+  millisToMinutesAndSeconds(millis) {
+    var minutes = Math.floor(millis / 60000);
+    var seconds = ((millis % 60000) / 1000).toFixed(0);
+    // return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+    return (parseInt(seconds) == 60 ? (minutes + 1) + ":00" : minutes + ":" + (parseInt(seconds) < 10 ? "0" : "") + seconds);
+
+  }
+
   onSubmit() {
     this.caclulateScore();
+    this.endTime = new Date();
+
+    let x = this.millisToMinutesAndSeconds(this.endTime - +(this.startTime));
+    console.log("difference", x);
+
+    console.log(this.endTime - +(this.startTime));
+
     this.submitted = true;
     if (this.quizForm.valid) {
       this.quizForm.reset();
@@ -121,16 +147,18 @@ export class QuestionsComponent implements OnInit {
       this.submitted = false;
     }
     else {
-
+      this.submitted = false;
+      this.messageTitle = "what’s the hurry? ⌚"
+      this.messageTxt = "Time is on your side ! . Try to answer all the questions";
       this.open(this.content)
-        /* var modal = $('#myModal');
+      /* var modal = $('#myModal');
 
-      modal.find('.modal-body').text('New message to ' + 'Amar')
-      modal.modal({
-        keyboard: true,
-        backdrop:true
+    modal.find('.modal-body').text('New message to ' + 'Amar')
+    modal.modal({
+      keyboard: true,
+      backdrop:true
 
-      });*/
+    });*/
     }
 
 
@@ -138,11 +166,19 @@ export class QuestionsComponent implements OnInit {
   }
 
   open(content) {
+
+
     this.modalService.open(content).result.then((result) => {
+
       this.closeResult = `Closed with: ${result}`;
-      console.log(result);
+      console.log(this.closeResult);
+
+
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      console.log(this.closeResult);
+
+
     });
   }
 
@@ -152,7 +188,52 @@ export class QuestionsComponent implements OnInit {
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
       return 'by clicking on a backdrop';
     } else {
-      return  `with: ${reason}`;
+      return `with: ${reason}`;
     }
+  }
+
+  canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
+
+    if (!this.submitted) {
+      this.continueFlag = true;
+      this.modalButtonText = "I Quit";
+      this.messageTitle = "Winners Never Quit halfway ⚠"
+      this.messageTxt = "If you leave the Quiz now,your score will be ZERO ";
+
+      //  this.open(this.content);
+
+      return new Promise<boolean>((resolve, reject) => {
+        this.modalService.open(this.content).result.then((result) => {
+
+          this.closeResult = `Closed with: ${result}`;
+          if (this.closeResult == 'Closed with: Quit') {
+
+            resolve(true);
+          }
+          else {
+            resolve(false);
+          }
+        }, (reason) => {
+          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+          resolve(false);
+
+
+
+        });
+
+      });
+
+   
+
+    }
+
+
+
+
+
+
+
+
+
   }
 }

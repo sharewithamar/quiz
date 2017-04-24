@@ -54,7 +54,8 @@
       <app-question [form]="quizForm" [formSubmitted]="submitted" [controlIndex]="i" [question]="question"></app-question>
 
     </div>
-    <span *ngIf="!quizForm.valid" class="help-block">You must answer all the question to submit </span>
+    <!--    <span *ngIf="!quizForm.valid" class="help-block">You must answer all the question to submit </span>
+-->
     <button class="btn btn-primary" type="submit">Submit</button>
 
   </form>
@@ -63,18 +64,20 @@
 
 <template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title">Modal title</h4>
+    <h4 class="modal-title">{{messageTitle}}</h4>
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <p>One fine body&hellip;</p>
+    <p>{{messageTxt}}</p>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
-    <button type="button" class="btn btn-primary" (click)="c('Amar')">Ok</button>
+    <button type="button" [ngClass]="{'btn-danger' : continueFlag}" class="btn btn-primary" (click)="c(buttonReason)">{{modalButtonText}}</button>
+        <button type="button"  *ngIf="continueFlag" class="btn btn-success" (click)="c('Close click')">Continue</button>
 
+<!--    <button type="button" class="btn btn-primary" (click)="c('Amar')">Ok</button>
+-->
   </div>
 </template>
 

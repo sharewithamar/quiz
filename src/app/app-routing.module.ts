@@ -6,13 +6,14 @@ import { HomeComponent } from './home/home.component';
 import { ErrorComponent } from './error/error.component';
 import { EventsComponent } from './events/events.component';
 import { QuestionsComponent } from './questions/questions.component';
+import {CanDeactivateGuard} from './questions/can-deactivate.guard';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent, pathMatch: 'full' },
   {
     path: 'creative', component: HomeComponent,
     children: [
-      { path: '', component: QuestionsComponent },
+      { path: '', component: QuestionsComponent,canDeactivate: [CanDeactivateGuard] },
       { path: 'events', component: EventsComponent },
     ]
   },

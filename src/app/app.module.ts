@@ -17,6 +17,7 @@ import { EventsComponent } from './events/events.component';
 import { QuestionsComponent } from './questions/questions.component';
 import { QuestionComponent } from './question/question.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import {CanDeactivateGuard} from './questions/can-deactivate.guard';
 
 
 @NgModule({
@@ -41,7 +42,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 
   ],
-  providers: [FireserviceService],
+  providers: [FireserviceService,CanDeactivateGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
