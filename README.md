@@ -1,12 +1,12 @@
 #Todo
 
--if user has already played then display his score in home page. He should not be able to play again
--create service for questions and answers
--after submission navigate to toppers
--display score in home
--feedback section if already played.
--toppers page
--gllerypage
+- if user has already played then display his score in home page. He should not be able to play again
+- create service for questions and answers
+- after submission navigate to toppers
+- display score in home
+- feedback section if already played.
+- toppers page
+- gllerypage
 
 
 # Quiz
