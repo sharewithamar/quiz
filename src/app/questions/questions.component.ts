@@ -1,8 +1,10 @@
+import { AngularFire } from 'angularfire2';
+import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { FireserviceService } from './../shared/fireservice.service';
-import { slideInDownAnimation } from 'app/shared/route-animation';
+import { slideInDownAnimation } from './../shared/route-animation';
 import { question } from './../shared/model';
-import { Component, OnInit, HostBinding, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, HostBinding, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { CanDeactivateGuard } from './can-deactivate.guard';
@@ -17,7 +19,7 @@ declare var $: any;
   animations: [slideInDownAnimation]
 
 })
-export class QuestionsComponent implements OnInit, CanDeactivateGuard {
+export class QuestionsComponent implements OnInit, CanDeactivateGuard, OnDestroy {
 
   @HostBinding('@routeAnimation') routeAnimation = true;
   @HostBinding('style.display') display = 'block';
@@ -30,6 +32,7 @@ export class QuestionsComponent implements OnInit, CanDeactivateGuard {
   questions: question[];
   arr = new FormArray([]);
   submitted: boolean = false;
+  preventTimeup: boolean = false;
   show: boolean = false;
   messageTxt: string;
   messageTitle: string;
@@ -39,11 +42,20 @@ export class QuestionsComponent implements OnInit, CanDeactivateGuard {
   continueFlag: boolean = false;
   buttonReason: string = "close click";
   gameOver: boolean = false;
+  startTimeSub: Subscription;
+  timerEndSub: Subscription;
+  authSub: Subscription;
+  score: any;
+  timeTaken: any;
+  scoreUpdated: boolean = false;
 
-  constructor(public fireservice: FireserviceService, private modalService: NgbModal) {
+  constructor(public fireservice: FireserviceService, private modalService: NgbModal, private fire: AngularFire) {
+
 
     console.log(fireservice.showQuestion);
-    this.startTime = new Date();
+    //this.startTime = new Date();
+
+    this.startTimeSub = this.fireservice.startTime.subscribe(time => this.startTime = time);
 
     this.questions = [
 
@@ -86,19 +98,28 @@ export class QuestionsComponent implements OnInit, CanDeactivateGuard {
 
   ngOnInit() {
 
-    this.fireservice.timerEnd.subscribe(x => {
+    this.timerEndSub = this.fireservice.timerEnd.subscribe(x => {
       if (x) {
-        this.modalButtonText = "ok 🐱";
+        if (!this.preventTimeup) {
+          this.modalButtonText = "ok 🐱";
+          this.messageTitle = "Time Up !! ⌚"
+          this.messageTxt = "um..You need to improve your GK & Time management. Your answers will be auto submitted";
+          this.open(this.content)
+          this.gameOver = true;
+          this.submitted = true;
+          this.onSubmit();
+        }
 
-        this.messageTitle = "Time Up !! ⌚"
-        this.messageTxt = "um..You need to improve your GK & Time management. Your answers will be auto submitted";
-        this.open(this.content)
-        this.gameOver = true;
-        this.onSubmit();
       }
     });
 
 
+  }
+
+  ngOnDestroy() {
+    this.startTimeSub.unsubscribe();
+    this.timerEndSub.unsubscribe();
+    // this.authSub.unsubscribe();
   }
 
   addRank() {
@@ -120,34 +141,70 @@ export class QuestionsComponent implements OnInit, CanDeactivateGuard {
       }
     }
     console.log("your score is ", score);
+    this.score = score;
+
+    // this.fireservice.updateScore.next(score);
 
   }
+
+
+  updateScoreAndTime() {
+
+    this.scoreUpdated = true;
+
+    this.fire.auth.subscribe(authState => {
+      //  authState.uid- use uid to fetch details
+
+      if (authState) {
+        this.fire.database.object('/users/' + authState.uid).update({
+          score: this.score,
+          time: this.timeTaken
+
+        });
+      }
+
+
+
+    });
+  }
+
 
   millisToMinutesAndSeconds(millis) {
     var minutes = Math.floor(millis / 60000);
     var seconds = ((millis % 60000) / 1000).toFixed(0);
+
+    // var   minutes = Math.floor((millis % 3600000) / 60000); // 1 Minutes = 60000 Milliseconds
+    // var   seconds = Math.floor(((millis % 360000) % 60000) / 1000) ;// 1 Second = 1000 Milliseconds
     // return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+    //  return minutes + ":" + seconds;
     return (parseInt(seconds) == 60 ? (minutes + 1) + ":00" : minutes + ":" + (parseInt(seconds) < 10 ? "0" : "") + seconds);
 
   }
 
   onSubmit() {
-    this.caclulateScore();
     if (this.gameOver) {
+
+      this.caclulateScore();
+      this.timeTaken = "10:00";
+      this.updateScoreAndTime();
+      this.quizForm.reset();
+     // this.preventTimeup = true;
+      this.submitted = false;
 
     }
     else {
-      this.endTime = new Date();
-      let x = this.millisToMinutesAndSeconds(this.endTime - +(this.startTime));
-      console.log("difference", x);
-
-      console.log(this.endTime - +(this.startTime));
 
       this.submitted = true;
       if (this.quizForm.valid) {
+        this.endTime = new Date();
+        this.timeTaken = this.millisToMinutesAndSeconds(this.endTime - +(this.startTime));
+        this.fireservice.stopTimer.next(true);
+        this.caclulateScore();
+        this.updateScoreAndTime();
         this.quizForm.reset();
-        console.log(this.quizForm.valid);
-        console.log(this.quizForm.get('questions').value);
+        //  console.log(this.quizForm.valid);
+        //   console.log(this.quizForm.get('questions').value);
+        this.preventTimeup = true;
         this.submitted = false;
       }
       else {
@@ -192,8 +249,8 @@ export class QuestionsComponent implements OnInit, CanDeactivateGuard {
   }
 
   canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
-
-    if (!this.submitted) {
+    console.log(this.startTime);
+    if (!this.submitted && typeof this.startTime !== 'undefined' && !this.scoreUpdated) {
       this.buttonReason = "Quit";
       this.continueFlag = true;
       this.modalButtonText = "I Quit";
@@ -207,6 +264,10 @@ export class QuestionsComponent implements OnInit, CanDeactivateGuard {
 
           this.closeResult = `Closed with: ${result}`;
           if (this.closeResult == 'Closed with: Quit') {
+            this.score = 0;
+            this.timeTaken = "00:00";
+            this.fireservice.stopTimer.next(true);
+            this.updateScoreAndTime();
             resolve(true);
             this.continueFlag = false;
 
@@ -226,6 +287,10 @@ export class QuestionsComponent implements OnInit, CanDeactivateGuard {
 
 
     }
+    else {
+      return true
+    }
+
 
 
   }

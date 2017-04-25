@@ -26,9 +26,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   };
   fireSub: Subscription;
   coverSub: Subscription;
+  stopTimerSub: Subscription;
   timer: any;
   startTimer: boolean = false;
   showQuestions: boolean = false;
+  AnswerSubmitted: boolean = false;
 
 
   constructor(public fireservice: FireserviceService, private route: ActivatedRoute, private router: Router, private fire: AngularFire) {
@@ -68,13 +70,37 @@ export class HomeComponent implements OnInit, OnDestroy {
       autoStart: false,
       callbacks: {
         stop: function () {
-          self.fireservice.timerEnd.next(true);
+          if (!self.AnswerSubmitted) {
+            self.fireservice.timerEnd.next(true);
+          }
+
 
         }
       }
     });
 
+
+
+    this.stopTimerSub = this.fireservice.stopTimer.subscribe(x => {
+      if (x && x !== "stop") {
+        this.AnswerSubmitted = true;
+        this.timer.stop();
+      }
+      else {
+        this.AnswerSubmitted = true;
+        this.timer.reset();
+      }
+
+    });
+
   }
+  /*
+    getCurrentTime()
+    {
+      
+      console.log("working",this.timer.getTime().time);
+      this.timer.stop();
+    }*/
 
 
   showTimer() {
@@ -88,6 +114,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       });
     }
     else {
+      this.fireservice.startTime.next(new Date());
       this.timer.start();
     }
 
@@ -104,6 +131,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.fireSub.unsubscribe();
     this.coverSub.unsubscribe();
+    this.stopTimerSub.unsubscribe();
   }
 
   animationDone(e) {

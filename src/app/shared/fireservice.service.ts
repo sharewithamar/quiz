@@ -9,7 +9,9 @@ import { Subject } from "rxjs/Subject";
 @Injectable()
 export class FireserviceService {
     timerEnd = new Subject<boolean>();
-   
+    stopTimer = new Subject<any>();
+    startTime = new Subject<any>();
+
     showQuestion:boolean =false;
 
   loggedUser: user = {
