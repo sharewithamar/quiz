@@ -31,7 +31,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   startTimer: boolean = false;
   showQuestions: boolean = false;
   AnswerSubmitted: boolean = false;
-
+  alreadyPlayed: boolean = false;
+  yourScore:any;
 
   constructor(public fireservice: FireserviceService, private route: ActivatedRoute, private router: Router, private fire: AngularFire) {
     //  this.loggedUser= this.fireservice.getLoggedinUser();
@@ -51,7 +52,23 @@ export class HomeComponent implements OnInit, OnDestroy {
         return;
       }
       else {
-        this.coverSub = this.fire.database.object('/users/' + authState.uid).subscribe(data => { this.loggedUser.coverUrl = data.cover });
+        this.coverSub = this.fire.database.object('/users/' + authState.uid).subscribe(data => {
+
+          if (data && data.score !== null && typeof data.score != 'undefined') {
+            this.alreadyPlayed = true;
+            this.fireservice.alreadyPlayed = true;
+            this.yourScore=data.score;
+          }
+          else {
+            console.log("there is no score");
+            this.alreadyPlayed = false;
+            this.fireservice.alreadyPlayed = false;
+
+
+          }
+
+          this.loggedUser.coverUrl = data.cover;
+        });
 
         this.loggedUser.name = authState.facebook.displayName;
         this.loggedUser.photoUrl = authState.facebook.photoURL;

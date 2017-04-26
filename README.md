@@ -7,6 +7,7 @@
 - feedback section if already played.
 - toppers page
 - gllerypage
+- add exceptions and toaster messsage
 
 
 # Quiz

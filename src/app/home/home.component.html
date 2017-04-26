@@ -13,7 +13,7 @@
                         <a class="nav-link" routerLink="/creative">Quiz</a>
                     </li>
                     <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-                        <a class="nav-link" href="#">Toppers <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" routerLink="./toppers">Toppers <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
 
@@ -21,7 +21,7 @@
                         <a class="nav-link" routerLink="./events">Events</a>
                     </li>
                     <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-                        <a class="nav-link">Gallery</a>
+                        <a class="nav-link" routerLink="./gallery">Gallery <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" (click)="logout()"> <i class="fa fa-sign-out  fa-lg"></i>
@@ -46,28 +46,36 @@
                         {{loggedUser?.name}}
                         <small>Boschler</small>
                     </h4>
-                    <!--  <div class='card-links'>
-                        <a class='fa fa-dribbble' href='#'></a>
-                        <a class='fa fa-twitter' href='#'></a>
-                        <a class='fa fa-facebook' href='#'></a>
-                    </div>-->
-                        <div id="timer"></div>
-                   
+
+                    <div id="timer" [style.display]="!alreadyPlayed ? 'block' : 'none'"></div>
+
+                    <button type="button" [style.display]="!alreadyPlayed ? 'inline-block' : 'none'" [disabled]="startTimer" [@buttonState]="startTimer ? 'valid' : 'invalid'"
+                        (@buttonState.done)="animationDone($event)" class="btn btn-success" (click)="showTimer();startTimer=true">Start Quiz</button>
+
+                    <h4 class='card-title' [style.display]="!alreadyPlayed ? 'none' : 'block'">
+                        <div class="alert alert-success" [ngClass]="(yourScore < 5)?'alert-info':'alert-success'" role="alert">
+                            <strong>Your score is :</strong> {{yourScore}}
+                            <small>Thanks for participating..😄 🐼 🐯</small>
+                        </div>
+
+                    </h4>
 
 
-                    <button type="button" [disabled]="startTimer"  [@buttonState]="startTimer ? 'valid' : 'invalid'"  (@buttonState.done)="animationDone($event)"
-                    class="btn btn-success" (click)="showTimer();startTimer=true">Start Quiz</button>
 
                 </div>
+
             </div>
+
         </div>
+
+
         <div class="col-md-8">
             <router-outlet></router-outlet>
         </div>
+
+
     </div>
-
 </div>
-
 
 
 

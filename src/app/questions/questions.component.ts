@@ -1,3 +1,4 @@
+import { Router, ActivatedRoute } from '@angular/router';
 import { AngularFire } from 'angularfire2';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
@@ -49,7 +50,8 @@ export class QuestionsComponent implements OnInit, CanDeactivateGuard, OnDestroy
   timeTaken: any;
   scoreUpdated: boolean = false;
 
-  constructor(public fireservice: FireserviceService, private modalService: NgbModal, private fire: AngularFire) {
+  constructor(public fireservice: FireserviceService, private modalService: NgbModal, private fire: AngularFire, private router: Router,
+    private route: ActivatedRoute) {
 
 
     console.log(fireservice.showQuestion);
@@ -188,8 +190,9 @@ export class QuestionsComponent implements OnInit, CanDeactivateGuard, OnDestroy
       this.timeTaken = "10:00";
       this.updateScoreAndTime();
       this.quizForm.reset();
-     // this.preventTimeup = true;
+      // this.preventTimeup = true;
       this.submitted = false;
+      this.router.navigate(['toppers'], { relativeTo: this.route });
 
     }
     else {
@@ -206,6 +209,8 @@ export class QuestionsComponent implements OnInit, CanDeactivateGuard, OnDestroy
         //   console.log(this.quizForm.get('questions').value);
         this.preventTimeup = true;
         this.submitted = false;
+        this.router.navigate(['toppers'], { relativeTo: this.route });
+
       }
       else {
         this.submitted = false;
@@ -270,6 +275,7 @@ export class QuestionsComponent implements OnInit, CanDeactivateGuard, OnDestroy
             this.updateScoreAndTime();
             resolve(true);
             this.continueFlag = false;
+
 
           }
           else {

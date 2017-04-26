@@ -18,6 +18,10 @@ import { QuestionsComponent } from './questions/questions.component';
 import { QuestionComponent } from './question/question.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import {CanDeactivateGuard} from './questions/can-deactivate.guard';
+import {CanActivateGuard} from './questions/can-activate.guard';
+
+import { GalleryComponent } from './gallery/gallery.component';
+import { ToppersComponent } from './toppers/toppers.component';
 
 
 @NgModule({
@@ -29,6 +33,8 @@ import {CanDeactivateGuard} from './questions/can-deactivate.guard';
     EventsComponent,
     QuestionsComponent,
     QuestionComponent,
+    GalleryComponent,
+    ToppersComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,7 +48,7 @@ import {CanDeactivateGuard} from './questions/can-deactivate.guard';
 
 
   ],
-  providers: [FireserviceService,CanDeactivateGuard],
+  providers: [FireserviceService,CanDeactivateGuard,CanActivateGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
