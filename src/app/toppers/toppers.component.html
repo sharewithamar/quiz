@@ -1,3 +1,5 @@
-<p>
-  toppers works!
-</p>
+<ul>
+
+  <li *ngFor="let user of users |async">{{user.name}} - {{user.score}} </li>
+
+</ul>
