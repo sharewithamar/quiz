@@ -30,7 +30,8 @@
         "../node_modules/tether/dist/js/tether.min.js",
         "../node_modules/bootstrap/dist/js/bootstrap.min.js",
         "../node_modules/flipclock/compiled/flipclock.min.js",
-        "../node_modules/jquery.nicescroll/jquery.nicescroll.min.js"
+        "../node_modules/jquery.nicescroll/jquery.nicescroll.min.js",
+        "../node_modules/underscore/underscore-min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

@@ -17,11 +17,12 @@ import { EventsComponent } from './events/events.component';
 import { QuestionsComponent } from './questions/questions.component';
 import { QuestionComponent } from './question/question.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
-import {CanDeactivateGuard} from './questions/can-deactivate.guard';
-import {CanActivateGuard} from './questions/can-activate.guard';
+import { CanDeactivateGuard } from './questions/can-deactivate.guard';
+import { CanActivateGuard } from './questions/can-activate.guard';
 
 import { GalleryComponent } from './gallery/gallery.component';
 import { ToppersComponent } from './toppers/toppers.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 
 @NgModule({
@@ -44,11 +45,11 @@ import { ToppersComponent } from './toppers/toppers.component';
     AppRoutingModule,
     AngularFireModule.initializeApp(firebaseConfig),
     ReactiveFormsModule,
-    BrowserAnimationsModule
-
+    BrowserAnimationsModule,
+    NgxChartsModule
 
   ],
-  providers: [FireserviceService,CanDeactivateGuard,CanActivateGuard],
+  providers: [FireserviceService, CanDeactivateGuard, CanActivateGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
