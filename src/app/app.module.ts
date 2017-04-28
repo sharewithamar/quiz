@@ -23,6 +23,7 @@ import { CanActivateGuard } from './questions/can-activate.guard';
 import { GalleryComponent } from './gallery/gallery.component';
 import { ToppersComponent } from './toppers/toppers.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+    import {ToastModule} from 'ng2-toastr/ng2-toastr';
 
 
 @NgModule({
@@ -46,8 +47,8 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     AngularFireModule.initializeApp(firebaseConfig),
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    NgxChartsModule
-
+    NgxChartsModule,
+    ToastModule.forRoot()
   ],
   providers: [FireserviceService, CanDeactivateGuard, CanActivateGuard],
   bootstrap: [AppComponent]

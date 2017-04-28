@@ -35,17 +35,30 @@ export class ToppersComponent implements OnInit {
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
   };
 
+  
   constructor(public fire: AngularFire, public fireservice: FireserviceService) {
+
+
+       
 
     // Object.assign(this, { single });
 
+    console.log(this.scoreData.length);
 
-    this.users = this.fire.database.list('users');
+    this.users = this.fire.database.list('users', {
+      query: {
+        orderByChild: 'order',
+        //  orderByValue: true
+
+
+      }
+    });
+
     this.users.subscribe((items) => {
       // items is an array
-        this.scoreData=[];
+      this.scoreData = [];
       items.forEach(item => {
-      
+
         this.scoreData.push(item.score);
 
         /*    this.data.push({

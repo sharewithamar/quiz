@@ -13,7 +13,7 @@ export class FireserviceService {
   startTime = new Subject<any>();
 
   showQuestion: boolean = false;
-  alreadyPlayed: boolean = false;
+  alreadyPlayed: boolean ;
 
   loggedUser: user = {
     name: '',
@@ -21,7 +21,41 @@ export class FireserviceService {
     coverUrl: ''
   };
   exist: any;
-  constructor(public af: AngularFire) { }
+  constructor(public af: AngularFire) {
+
+    this.af.auth.subscribe(authState => {
+      //  authState.uid- use uid to fetch details
+
+
+      this.af.database.object('/users/' + authState.uid).subscribe(data => {
+
+        console.log("insideguard", data);
+
+        if (data && data.score !== null && typeof data.score !== 'undefined') {
+
+          this.alreadyPlayed = true;
+
+          //return true;
+
+        }
+        else {
+
+          // return false;
+          this.alreadyPlayed = false;
+
+
+        }
+
+
+      });
+
+
+
+
+
+    });
+
+  }
 
   facebookLogin() {
     return this.af.auth.login({
@@ -41,31 +75,7 @@ export class FireserviceService {
 
 
   isAlreadyPlayed() {
-    this.af.auth.subscribe(authState => {
-      //  authState.uid- use uid to fetch details
 
-
-      this.af.database.object('/users/' + authState.uid).subscribe(data => {
-
-        if (data && data.score !== null && typeof data.score !== 'undefined') {
-
-          return true;
-
-        }
-        else {
-
-          return false;
-
-        }
-
-
-      });
-
-
-
-
-
-    });
   }
 
 }

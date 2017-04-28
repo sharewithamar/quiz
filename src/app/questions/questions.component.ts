@@ -160,6 +160,7 @@ export class QuestionsComponent implements OnInit, CanDeactivateGuard, OnDestroy
       if (authState) {
         this.fire.database.object('/users/' + authState.uid).update({
           score: this.score,
+          order:-this.score,
           time: this.timeTaken
 
         });

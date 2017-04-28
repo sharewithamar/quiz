@@ -10,12 +10,13 @@ export class CanActivateGuard implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
 
       
-        if (this.fireservice.isAlreadyPlayed) {
+        if (this.fireservice.alreadyPlayed) {
             console.log("here");
            // this.router.navigate(['toppers'], { relativeTo: this.route });
              this.router.navigate(['/creative/toppers']);
         }
         else {
+            console.log("else in guard")
             return true;
 
         }
