@@ -1,3 +1,4 @@
+
 import { Router, ActivatedRoute } from '@angular/router';
 import { AngularFire } from 'angularfire2';
 import { Subscription } from 'rxjs/Subscription';
@@ -20,7 +21,7 @@ declare var $: any;
   animations: [slideInDownAnimation]
 
 })
-export class QuestionsComponent implements OnInit, CanDeactivateGuard, OnDestroy {
+export class QuestionsComponent implements OnInit, CanDeactivateGuard,OnDestroy  {
 
   @HostBinding('@routeAnimation') routeAnimation = true;
   @HostBinding('style.display') display = 'block';
@@ -53,11 +54,12 @@ export class QuestionsComponent implements OnInit, CanDeactivateGuard, OnDestroy
   constructor(public fireservice: FireserviceService, private modalService: NgbModal, private fire: AngularFire, private router: Router,
     private route: ActivatedRoute) {
 
-
     console.log(fireservice.showQuestion);
-    //this.startTime = new Date();
-
-    this.startTimeSub = this.fireservice.startTime.subscribe(time => this.startTime = time);
+    this.startTimeSub = this.fireservice.startTime.subscribe(time => {
+      console.log("started", time);
+      this.startTime = time
+    }
+    );
 
     this.questions = [
 
@@ -100,28 +102,26 @@ export class QuestionsComponent implements OnInit, CanDeactivateGuard, OnDestroy
 
   ngOnInit() {
 
-    this.timerEndSub = this.fireservice.timerEnd.subscribe(x => {
+   this.timerEndSub= this.fireservice.timerEnd.subscribe(x => {
       if (x) {
-        if (!this.preventTimeup) {
-          this.modalButtonText = "ok 🐱";
-          this.messageTitle = "Time Up !! ⌚"
-          this.messageTxt = "um..You need to improve your GK & Time management. Your answers will be auto submitted";
-          this.open(this.content)
-          this.gameOver = true;
-          this.submitted = true;
-          this.onSubmit();
-        }
+        this.modalButtonText = "ok 🐱";
 
+        this.messageTitle = "Time Up !! ⌚"
+        this.messageTxt = "um..You need to improve your GK & Time management. Your answers will be auto submitted";
+        this.open(this.content)
+        this.gameOver = true;
+        this.onSubmit();
       }
     });
 
 
   }
 
-  ngOnDestroy() {
+
+ngOnDestroy() {
     this.startTimeSub.unsubscribe();
     this.timerEndSub.unsubscribe();
-    // this.authSub.unsubscribe();
+
   }
 
   addRank() {
@@ -132,6 +132,26 @@ export class QuestionsComponent implements OnInit, CanDeactivateGuard, OnDestroy
   var ranks = arr.slice().map(function(v){ return sorted.indexOf(v)+1 });*/
   }
 
+
+  updateScoreAndTime() {
+
+    this.scoreUpdated = true;
+
+    this.fire.auth.subscribe(authState => {
+      //  authState.uid- use uid to fetch details
+
+      if (authState) {
+        this.fire.database.object('/users/' + authState.uid).update({
+          score: this.score,
+          time: this.timeTaken
+
+        });
+      }
+
+
+
+    });
+  }
   caclulateScore() {
     let answers = ["Delhi", "Chennai", "colombo"];
     let userAnswers = this.quizForm.get('questions').value;
@@ -150,28 +170,6 @@ export class QuestionsComponent implements OnInit, CanDeactivateGuard, OnDestroy
   }
 
 
-  updateScoreAndTime() {
-
-    this.scoreUpdated = true;
-
-    this.fire.auth.subscribe(authState => {
-      //  authState.uid- use uid to fetch details
-
-      if (authState) {
-        this.fire.database.object('/users/' + authState.uid).update({
-          score: this.score,
-          order:-this.score,
-          time: this.timeTaken
-
-        });
-      }
-
-
-
-    });
-  }
-
-
   millisToMinutesAndSeconds(millis) {
     var minutes = Math.floor(millis / 60000);
     var seconds = ((millis % 60000) / 1000).toFixed(0);
@@ -187,37 +185,41 @@ export class QuestionsComponent implements OnInit, CanDeactivateGuard, OnDestroy
   onSubmit() {
     if (this.gameOver) {
 
-      this.caclulateScore();
-      this.timeTaken = "10:00";
-      this.updateScoreAndTime();
-      this.quizForm.reset();
-      // this.preventTimeup = true;
-      this.submitted = false;
-      this.router.navigate(['toppers'], { relativeTo: this.route });
+       this.caclulateScore();
+       this.timeTaken = "10:00";
+       this.updateScoreAndTime();
+       this.quizForm.reset();
+       // this.preventTimeup = true;
+       this.submitted = false;
+       this.router.navigate(['toppers'], { relativeTo: this.route });
 
     }
     else {
-
       this.submitted = true;
       if (this.quizForm.valid) {
+
         this.endTime = new Date();
         this.timeTaken = this.millisToMinutesAndSeconds(this.endTime - +(this.startTime));
         this.fireservice.stopTimer.next(true);
+
+
         this.caclulateScore();
         this.updateScoreAndTime();
         this.quizForm.reset();
-        //  console.log(this.quizForm.valid);
-        //   console.log(this.quizForm.get('questions').value);
+
         this.preventTimeup = true;
         this.submitted = false;
         this.router.navigate(['toppers'], { relativeTo: this.route });
 
       }
       else {
-        this.submitted = false;
+
+        this.submitted = true;
         this.messageTitle = "what’s the hurry? ⌚"
         this.messageTxt = "Time is on your side ! . Try to answer all the questions";
         this.open(this.content)
+   
+
       }
 
     }

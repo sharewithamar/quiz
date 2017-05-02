@@ -1,16 +1,21 @@
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import { FireserviceService } from './../shared/fireservice.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { single } from './../shared/data';
 import * as _ from 'underscore';
+import { routeFadeStateTrigger, routeSlideStateTrigger, slideInDownAnimation } from "./../shared/route-animation";
 
 @Component({
   selector: 'app-toppers',
   templateUrl: './toppers.component.html',
-  styleUrls: ['./toppers.component.css']
+  styleUrls: ['./toppers.component.css'],
+  animations: [slideInDownAnimation]
 })
 export class ToppersComponent implements OnInit {
+
+  @HostBinding('@routeAnimation') routeAnimation = true;
+  @HostBinding('style.display') display = 'block';
 
   // usersList: FirebaseObjectObservable<any[]>;
   users: FirebaseListObservable<any[]>;
@@ -35,11 +40,11 @@ export class ToppersComponent implements OnInit {
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
   };
 
-  
+
   constructor(public fire: AngularFire, public fireservice: FireserviceService) {
 
 
-       
+
 
     // Object.assign(this, { single });
 

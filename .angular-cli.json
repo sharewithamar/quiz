@@ -23,8 +23,8 @@
         "../node_modules/font-awesome/css/font-awesome.min.css",
         "styles.css",
         "bootstrap-social.css",
-        "../node_modules/flipclock/compiled/flipclock.css",
-       "../node_modules/ng2-toastr/bundles/ng2-toastr.min.css"
+        "../node_modules/flipclock/compiled/flipclock.css"
+    
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.min.js",
@@ -32,8 +32,8 @@
         "../node_modules/bootstrap/dist/js/bootstrap.min.js",
         "../node_modules/flipclock/compiled/flipclock.min.js",
         "../node_modules/jquery.nicescroll/jquery.nicescroll.min.js",
-        "../node_modules/underscore/underscore-min.js",
-        "../node_modules/ng2-toastr/bundles/ng2-toastr.min.js"
+        "../node_modules/underscore/underscore-min.js"
+     
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

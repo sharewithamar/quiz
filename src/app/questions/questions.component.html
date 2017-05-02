@@ -23,17 +23,14 @@
           </label>
     </div>
     <div class="form-check">
-
       <label>
             <input
               type="radio"
                          [formControlName]="i"   
-
               [value]="question.option3">{{question.option3}}
           </label>
     </div>
     <div class="form-check">
-
       <label>
             <input
               type="radio"
@@ -43,12 +40,6 @@
     </div>
   </div>
 </div>
-
-
-
-
-
-
 </div>-->
     <div *ngFor="let question of questions; let i = index">
       <app-question [form]="quizForm" [formSubmitted]="submitted" [controlIndex]="i" [question]="question"></app-question>
@@ -56,7 +47,12 @@
     </div>
     <!--    <span *ngIf="!quizForm.valid" class="help-block">You must answer all the question to submit </span>
 -->
-    <button class="btn btn-primary" type="submit">Submit</button>
+      <div class="text-center" style="margin-top:10px">
+      <button class="btn btn-primary" type="submit">Submit</button>
+
+      </div>
+
+ 
 
   </form>
 
@@ -74,15 +70,13 @@
   </div>
   <div class="modal-footer">
     <button type="button" [ngClass]="{'btn-danger' : continueFlag}" class="btn btn-primary" (click)="c(buttonReason)">{{modalButtonText}}</button>
-        <button type="button"  *ngIf="continueFlag" class="btn btn-success" (click)="c('Close click')">Continue</button>
+    <button type="button" *ngIf="continueFlag" class="btn btn-success" (click)="c('Close click')">Continue</button>
 
-<!--    <button type="button" class="btn btn-primary" (click)="c('Amar')">Ok</button>
+    <!--    <button type="button" class="btn btn-primary" (click)="c('Amar')">Ok</button>
 -->
   </div>
 </template>
 
 <!--<button class="btn btn-lg btn-outline-primary" (click)="open(content)">Launch demo modal</button>
-
 <hr>-->
 
-<pre>{{closeResult}}</pre>

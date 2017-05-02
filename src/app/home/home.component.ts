@@ -1,12 +1,10 @@
 import { buttonStateTrigger } from './../shared/route-animation';
 import { Subscription } from 'rxjs/Subscription';
-import { Component, OnInit, ViewChild, ElementRef, OnDestroy, HostBinding, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy, HostBinding } from '@angular/core';
 import { user } from '../shared/model';
 import { FireserviceService } from '../shared/fireservice.service';
 import { ActivatedRoute, Params, Router, Data } from '@angular/router';
 import { AngularFire, FirebaseListObservable } from 'angularfire2';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-
 declare var $: any;
 
 
@@ -36,10 +34,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   alreadyPlayed: boolean = false;
   yourScore: any;
 
-  constructor(public fireservice: FireserviceService, private route: ActivatedRoute, private router: Router, private fire: AngularFire,
-    public toastr: ToastsManager, vcr: ViewContainerRef) {
-    this.toastr.setRootViewContainerRef(vcr);
 
+  constructor(public fireservice: FireserviceService, private route: ActivatedRoute, private router: Router, private fire: AngularFire) {
     //  this.loggedUser= this.fireservice.getLoggedinUser();
     //  console.log("inside Home", this.loggedUser);
   }
@@ -58,25 +54,33 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
       else {
         this.coverSub = this.fire.database.object('/users/' + authState.uid).subscribe(data => {
+          this.loggedUser.coverUrl = data.cover
+          this.loggedUser.photoUrl = data.photoUrl;
+
+
 
           if (data && data.score !== null && typeof data.score != 'undefined') {
+            console.log("Already played");
+
             this.alreadyPlayed = true;
             this.fireservice.alreadyPlayed = true;
             this.yourScore = data.score;
+            // this.router.navigate(['/creative/toppers']);
           }
           else {
             console.log("there is no score");
             this.alreadyPlayed = false;
-            // this.fireservice.alreadyPlayed = false;
+            this.fireservice.alreadyPlayed = false;
 
 
           }
 
-          this.loggedUser.coverUrl = data.cover;
+
+
         });
 
         this.loggedUser.name = authState.facebook.displayName;
-        this.loggedUser.photoUrl = authState.facebook.photoURL;
+
       }
 
 
@@ -84,9 +88,10 @@ export class HomeComponent implements OnInit, OnDestroy {
 
 
 
+
     var self = this;
 
-    this.timer = $('#timer').FlipClock(10, {
+    this.timer = $('#timer').FlipClock(600, {
       countdown: true,
       clockFace: 'MinuteCounter',
       autoStart: false,
@@ -101,8 +106,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
     });
 
-
-
     this.stopTimerSub = this.fireservice.stopTimer.subscribe(x => {
       if (x && x !== "stop") {
         this.AnswerSubmitted = true;
@@ -116,18 +119,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
 
   }
-  /*
-    getCurrentTime()
-    {
-      
-      console.log("working",this.timer.getTime().time);
-      this.timer.stop();
-    }*/
 
 
   showTimer() {
 
-        this.toastr.success('You are awesome!', 'Success!');
 
     if (this.timer.getTime().time == 0) {
 

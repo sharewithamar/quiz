@@ -18,12 +18,11 @@ import { QuestionsComponent } from './questions/questions.component';
 import { QuestionComponent } from './question/question.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { CanDeactivateGuard } from './questions/can-deactivate.guard';
-import { CanActivateGuard } from './questions/can-activate.guard';
+import { NameGuard } from './questions/can-activate.guard';
 
 import { GalleryComponent } from './gallery/gallery.component';
 import { ToppersComponent } from './toppers/toppers.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-    import {ToastModule} from 'ng2-toastr/ng2-toastr';
 
 
 @NgModule({
@@ -48,9 +47,8 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     NgxChartsModule,
-    ToastModule.forRoot()
   ],
-  providers: [FireserviceService, CanDeactivateGuard, CanActivateGuard],
+  providers: [FireserviceService,CanDeactivateGuard,NameGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -6,7 +6,6 @@ import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/map';
 import { Subscription } from "rxjs/Subscription";
 import { Http } from "@angular/http";
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({
   selector: 'app-login',
@@ -19,8 +18,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   isLoggedIn: boolean;
   fireSub: Subscription;
 
-  constructor(public fire: AngularFire, public fireservice: FireserviceService, public router: Router, private http: Http,
-    ) {
+  constructor(public fire: AngularFire, public fireservice: FireserviceService, public router: Router, private http: Http)
+     {
   
 
   }
@@ -34,7 +33,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       else {
         console.log("auth sub", authState);
         this.isLoggedIn = true;
-        //   this.saveUser(authState);
+        this.saveUser(authState);
 
       }
 
@@ -83,13 +82,11 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   login() {
     if (this.isLoggedIn) {
-             
 
 
       this.router.navigate(['/creative']);
     }
     else {
-            
 
       this.fireservice.facebookLogin().then((authState: any) => {
 
@@ -108,7 +105,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.fireSub.unsubscribe();
+  //  this.fireSub.unsubscribe();
 
 
   }
