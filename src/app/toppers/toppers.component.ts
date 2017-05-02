@@ -2,7 +2,6 @@ import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'a
 import { FireserviceService } from './../shared/fireservice.service';
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { single } from './../shared/data';
 import * as _ from 'underscore';
 import { routeFadeStateTrigger, routeSlideStateTrigger, slideInDownAnimation } from "./../shared/route-animation";
 
@@ -27,17 +26,17 @@ export class ToppersComponent implements OnInit {
   showXAxis = true;
   showYAxis = true;
   gradient = false;
-  showLegend = true;
+  showLegend = false;
   showXAxisLabel = true;
   xAxisLabel = 'Score';
   showYAxisLabel = true;
-  yAxisLabel = 'Users';
+  yAxisLabel = 'Number of Users';
   data: any[] = [];
   graphData: any[] = [];
   scoreData: any[] = [];
   countsData = {};
   colorScheme = {
-    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
+    domain: ['#FF000C', '#F6AD5B', '#FF5733', '#FFC300','#DAF7A6','#ACB85A','#5790B3','#57B3A9','#57B385','#16C240']
   };
 
 

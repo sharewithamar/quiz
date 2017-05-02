@@ -10,6 +10,7 @@ import { Component, OnInit, HostBinding, ViewChild, ElementRef, OnDestroy } from
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { CanDeactivateGuard } from './can-deactivate.guard';
+import { questions,answers } from './../shared/data';
 
 declare var $: any;
 
@@ -32,6 +33,7 @@ export class QuestionsComponent implements OnInit, CanDeactivateGuard,OnDestroy 
   time: any;
   quizForm: FormGroup;
   questions: question[];
+  answers:any;
   arr = new FormArray([]);
   submitted: boolean = false;
   preventTimeup: boolean = false;
@@ -61,7 +63,9 @@ export class QuestionsComponent implements OnInit, CanDeactivateGuard,OnDestroy 
     }
     );
 
-    this.questions = [
+    this.questions =questions;
+    this.answers=answers;
+ /*   this.questions = [
 
       {
         question: "captital of india?",
@@ -87,7 +91,7 @@ export class QuestionsComponent implements OnInit, CanDeactivateGuard,OnDestroy 
         option4: "Yala"
 
       }
-    ];
+    ];*/
 
     this.quizForm = new FormGroup({
       'questions': this.arr
@@ -153,12 +157,12 @@ ngOnDestroy() {
     });
   }
   caclulateScore() {
-    let answers = ["Delhi", "Chennai", "colombo"];
+   // let answers = ["Delhi", "Chennai", "colombo"];
     let userAnswers = this.quizForm.get('questions').value;
     let score = 0;
 
-    for (let q = 0; q < answers.length; q++) {
-      if (answers[q] == userAnswers[q]) {
+    for (let q = 0; q <   this.answers.length; q++) {
+      if (  this.answers[q] == userAnswers[q]) {
         score++;
       }
     }
