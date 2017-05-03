@@ -37,4 +37,8 @@ export class QuestionComponent implements OnInit {
 
   }
 
+  get formData() { return <FormArray>this.form.get('questions'); }
+
+
+
 }

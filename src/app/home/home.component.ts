@@ -65,7 +65,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
           if (data && data.score !== null && typeof data.score != 'undefined') {
             console.log("Already played");
-            this.toastr.success('You have already played !');
+            this.toastr.success('Thanks for playing!');
             this.alreadyPlayed = true;
             this.fireservice.alreadyPlayed = true;
             this.yourScore = data.score;
@@ -95,7 +95,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     var self = this;
 
-    this.timer = $('#timer').FlipClock(600, {
+    this.timer = $('#timer').FlipClock(300, {
       countdown: true,
       clockFace: 'MinuteCounter',
       autoStart: false,

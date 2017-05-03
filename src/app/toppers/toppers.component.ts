@@ -20,7 +20,7 @@ export class ToppersComponent implements OnInit {
   users: FirebaseListObservable<any[]>;
   single: any[] = [];
   multi: any[];
-  view: any[] = [700, 400];
+  view: any[] = [500, 300];
 
   // options
   showXAxis = true;

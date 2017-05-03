@@ -1,4 +1,4 @@
-<div class="card question-card" [formGroup]="form" [ngClass]= "{errorBorder : form.get('questions').controls[controlIndex].hasError('required') && formSubmitted}">
+<div class="card question-card" [formGroup]="form" [ngClass]= "{errorBorder : formData.controls[controlIndex].hasError('required') && formSubmitted}">
   <div formArrayName="questions">
     <div class="card-header">
      <strong class="text-muted">{{question.question}}</strong> 
@@ -59,7 +59,7 @@
 
       </div>
     </div>
-    <span class="form-text text-muted errormsg" *ngIf="form.get('questions').controls[controlIndex].hasError('required') && formSubmitted"> * You must answer this question.</span>
+    <span class="form-text text-muted errormsg" *ngIf="formData.controls[controlIndex].hasError('required') && formSubmitted"> * You must answer this question.</span>
 
   </div>
 </div>
