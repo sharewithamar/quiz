@@ -6,6 +6,7 @@ import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/map';
 import { Subscription } from "rxjs/Subscription";
 import { Http } from "@angular/http";
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({
   selector: 'app-login',
@@ -18,9 +19,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   isLoggedIn: boolean;
   fireSub: Subscription;
 
-  constructor(public fire: AngularFire, public fireservice: FireserviceService, public router: Router, private http: Http)
-     {
-  
+  constructor(public fire: AngularFire, public fireservice: FireserviceService, public router: Router, private http: Http,public toastr: ToastsManager, vcr: ViewContainerRef) {
+    this.toastr.setRootViewContainerRef(vcr);
+
 
   }
 
@@ -98,6 +99,9 @@ export class LoginComponent implements OnInit, OnDestroy {
  */
         this.getUserCoverPhoto(authState);
         this.router.navigate(['/creative']);
+      }).catch(error => {
+        this.toastr.error('Pls try in evergreen browsers like chrome or Accept third party cookies in browser settings');
+
       });
     }
 
@@ -105,7 +109,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-  //  this.fireSub.unsubscribe();
+    //  this.fireSub.unsubscribe();
 
 
   }

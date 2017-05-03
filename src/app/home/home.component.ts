@@ -1,11 +1,12 @@
 import { buttonStateTrigger } from './../shared/route-animation';
 import { Subscription } from 'rxjs/Subscription';
-import { Component, OnInit, ViewChild, ElementRef, OnDestroy, HostBinding } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy, HostBinding, ViewContainerRef } from '@angular/core';
 import { user } from '../shared/model';
 import { FireserviceService } from '../shared/fireservice.service';
 import { ActivatedRoute, Params, Router, Data } from '@angular/router';
 import { AngularFire, FirebaseListObservable } from 'angularfire2';
 declare var $: any;
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 
 
@@ -35,7 +36,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   yourScore: any;
 
 
-  constructor(public fireservice: FireserviceService, private route: ActivatedRoute, private router: Router, private fire: AngularFire) {
+  constructor(public fireservice: FireserviceService, private route: ActivatedRoute, private router: Router, private fire: AngularFire,
+    public toastr: ToastsManager, vcr: ViewContainerRef) {
+    this.toastr.setRootViewContainerRef(vcr);
+
     //  this.loggedUser= this.fireservice.getLoggedinUser();
     //  console.log("inside Home", this.loggedUser);
   }
@@ -61,7 +65,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
           if (data && data.score !== null && typeof data.score != 'undefined') {
             console.log("Already played");
-
+            this.toastr.success('You have already played !');
             this.alreadyPlayed = true;
             this.fireservice.alreadyPlayed = true;
             this.yourScore = data.score;
@@ -117,6 +121,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
 
     });
+
+      
 
   }
 

@@ -23,6 +23,8 @@ import { NameGuard } from './questions/can-activate.guard';
 import { GalleryComponent } from './gallery/gallery.component';
 import { ToppersComponent } from './toppers/toppers.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { ToastModule } from 'ng2-toastr/ng2-toastr';
+
 
 
 @NgModule({
@@ -47,8 +49,9 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     NgxChartsModule,
+    ToastModule.forRoot()
   ],
-  providers: [FireserviceService,CanDeactivateGuard,NameGuard],
+  providers: [FireserviceService, CanDeactivateGuard, NameGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
