@@ -29,7 +29,6 @@ export class QuestionComponent implements OnInit {
     // this.currentFormControl = (<FormArray>this.form.get('questions')).controls[this.controlIndex] ;
      
 /*         console.log("recievedControl",this.control);
-
     console.log("recievedQuestion",this.question);
         console.log("control instance",this.controlIndex);
         console.log( (<FormArray>this.form.get('questions')).controls[this.controlIndex] );
