@@ -36,9 +36,9 @@ export class ToppersComponent implements OnInit {
   scoreData: any[] = [];
   countsData = {};
   colorScheme = {
-    domain: ['#FF000C', '#F6AD5B', '#FF5733', '#FFC300','#DAF7A6','#ACB85A','#5790B3','#57B3A9','#57B385','#16C240']
+    domain: ['#FF000C', '#F6AD5B', '#FF5733', '#FFC300', '#DAF7A6', '#ACB85A', '#5790B3', '#57B3A9', '#57B385', '#16C240']
   };
-
+tooltipDisabled=true;
 
   constructor(public fire: AngularFire, public fireservice: FireserviceService) {
 
@@ -52,7 +52,7 @@ export class ToppersComponent implements OnInit {
     this.users = this.fire.database.list('users', {
       query: {
         orderByChild: 'order',
-        //  orderByValue: true
+         // orderByValue: true
 
 
       }
@@ -61,9 +61,14 @@ export class ToppersComponent implements OnInit {
     this.users.subscribe((items) => {
       // items is an array
       this.scoreData = [];
+       this.countsData = {};
+       this.data=[];
       items.forEach(item => {
 
-        this.scoreData.push(item.score);
+        if (typeof item.score !== "undefined") {
+          this.scoreData.push(item.score);
+
+        }
 
         /*    this.data.push({
               "name": item.name,
@@ -97,6 +102,10 @@ export class ToppersComponent implements OnInit {
         }
       }
       console.log("data", this.data);
+   /*  let x= this.data.sort(function(a, b){return a.value-b.value});
+           console.log("x sort",x);*/
+
+
 
 
       this.single = [...this.data];

@@ -8,6 +8,7 @@ import { FormArray, FormControl, FormGroup, Validators ,FormControlName } from '
   templateUrl: './question.component.html',
   styleUrls: ['./question.component.css']
 })
+
 export class QuestionComponent implements OnInit {
  @Input() form: FormGroup;
   @Input() controlIndex: any;

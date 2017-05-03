@@ -52,6 +52,7 @@ export class QuestionsComponent implements OnInit, CanDeactivateGuard,OnDestroy 
   score: any;
   timeTaken: any;
   scoreUpdated: boolean = false;
+  order:number;
 
   constructor(public fireservice: FireserviceService, private modalService: NgbModal, private fire: AngularFire, private router: Router,
     private route: ActivatedRoute) {
@@ -140,14 +141,17 @@ ngOnDestroy() {
   updateScoreAndTime() {
 
     this.scoreUpdated = true;
+    this.order= -this.score;
 
     this.fire.auth.subscribe(authState => {
       //  authState.uid- use uid to fetch details
+      
 
       if (authState) {
         this.fire.database.object('/users/' + authState.uid).update({
           score: this.score,
-          time: this.timeTaken
+          time: this.timeTaken,
+          order:this.order
 
         });
       }
