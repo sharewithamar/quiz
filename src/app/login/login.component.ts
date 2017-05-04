@@ -89,7 +89,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
     else {
 
-      this.fireservice.facebookLogin().then((authState: any) => {
+      this.fireservice.twitterLogin().then((authState: any) => {
 
         console.log("vf", authState);
 
@@ -97,12 +97,13 @@ export class LoginComponent implements OnInit, OnDestroy {
            accessToken: authState.facebook.accessToken
          });
  */
-        this.getUserCoverPhoto(authState);
-        this.router.navigate(['/creative']);
+      //  this.getUserCoverPhoto(authState);
+       // this.router.navigate(['/creative']);
       }).catch(error => {
         this.toastr.error('Pls try in evergreen browsers like chrome or Accept third party cookies in browser settings');
 
       });
+
     }
 
 

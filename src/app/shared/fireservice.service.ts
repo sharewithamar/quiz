@@ -29,6 +29,13 @@ export class FireserviceService {
       method: AuthMethods.Popup,
     })
 
+  }
+
+  twitterLogin() {
+    return this.af.auth.login({
+      provider: AuthProviders.Twitter,
+      method: AuthMethods.Popup,
+    })
 
   }
 
