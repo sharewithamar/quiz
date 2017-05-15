@@ -194,7 +194,7 @@ ngOnDestroy() {
     if (this.gameOver) {
 
        this.caclulateScore();
-       this.timeTaken = "10:00";
+       this.timeTaken = "5:00";
        this.updateScoreAndTime();
        this.quizForm.reset();
        // this.preventTimeup = true;
